@@ -10,7 +10,7 @@ import Doctors from '../components/Doctors'
 import LoginPage from '../components/LoginPage';
 import PrivateRoute from './PrivateRoute';
 import DoctorDashboard from '../components/DoctorDashboard';
-import RegisterPage from '../components/RegisterPage';
+
 
 
 const AppRouter = () => (
@@ -21,8 +21,9 @@ const AppRouter = () => (
             <PublicRoute path="/services" component={Services} />
             <PublicRoute path="/doctors" component={Doctors} />
             <PrivateRoute path="/dashboard" component={DoctorDashboard} />
-            <Route path="/register" component={RegisterPage} />
-            <Route path="/login" component={LoginPage} />
+            <Route path="/login" render={(props)=><LoginPage {...props} user={'patient'} />} />
+            <Route path="/register" render={(props)=><LoginPage {...props} user={'new-patient'} />} />
+            <Route path="/drlogin" render={(props)=><LoginPage {...props} user={'doctor'} />} />
             <Route component={NotFoundPage} />
         </Switch>
     </Router>
