@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import { startLogout } from '../actions/auth'
 
 
-const DoctorDashboard = ({startLogout}) => (
+const DoctorDashboard = ({startLogout}) => {    
+    return(
     <button onClick={startLogout}>Log Out</button>
-);
+    )
+};
 
 
 const mapDispatchToProps = (dispatch) => ({

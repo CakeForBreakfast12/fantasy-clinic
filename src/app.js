@@ -7,7 +7,8 @@ import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
 import { login, logout } from './actions/auth';
-import { firebase } from './firebase/firebase'
+import { firebase } from './firebase/firebase';
+import database from './firebase/firebase';
 
 
 const store = configureStore();
@@ -22,7 +23,11 @@ ReactDOM.render(jsx, document.getElementById('app'));
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         store.dispatch(login(user.uid))
-        history.push('/dashboard')
+        database.ref(`doctors/${user.uid}`).once("value").then((snapshot) => {
+            if (snapshot.exists()) history.push('/dashboard')
+            else history.push('/createAppointment')
+        })
+
     } else {
         store.dispatch(logout())
         history.push('/')
