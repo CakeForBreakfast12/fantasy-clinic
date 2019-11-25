@@ -10,7 +10,7 @@ import Doctors from '../components/Doctors'
 import LoginPage from '../components/LoginPage';
 import PrivateRoute from './PrivateRoute';
 import DoctorDashboard from '../components/DoctorDashboard';
-import CreateAppointment from '../components/CreateAppointment';
+import PatientDashboard from '../components/PatientDashboard';
 
 
 
@@ -22,7 +22,7 @@ const AppRouter = () => (
             <PublicRoute path="/services" component={Services} />
             <PublicRoute path="/doctors" component={Doctors} />
             <PrivateRoute path="/dashboard" component={DoctorDashboard} />
-            <PrivateRoute path="/createAppointment" component={CreateAppointment} />
+            <PrivateRoute path="/patientDashboard" component={PatientDashboard} />
             <Route path="/login" render={(props)=><LoginPage {...props} user={'patient'} />} />
             <Route path="/register" render={(props)=><LoginPage {...props} user={'new-patient'} />} />
             <Route path="/drlogin" render={(props)=><LoginPage {...props} user={'doctor'} />} />

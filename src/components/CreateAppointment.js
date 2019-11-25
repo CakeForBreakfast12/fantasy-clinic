@@ -1,21 +1,62 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { startLogout } from '../actions/auth'
+import moment from 'moment';
+import DoctorsDay from './DoctorsDay';
+import database, { firebase } from '../firebase/firebase'
 
 
-const CreateAppointment = ({startLogout}) => {    
-    return(
-        <div>
-        <h3>Please fill in the details</h3>
-        <button onClick={startLogout}>Log Out</button>
-        </div>
-    
-    )
-};
+export default class CreateAppointment extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            doctor: "",
+            patient: ""
+        };
+    }
+
+    componentDidMount() {
+        database.ref(`patients/${firebase.auth().currentUser.uid}/contactInfo/name`).once("value")
+            .then((snapshot) => {
+                this.setState(() => ({ patient: snapshot.val() }))
+            })
+    }
+
+    onDoctorChange = (e) => {
+        const doctor = e.target.value
+        this.setState(() => ({ doctor }))
+
+    }
 
 
-const mapDispatchToProps = (dispatch) => ({
-    startLogout: () => dispatch(startLogout())
-})
 
-export default connect(undefined, mapDispatchToProps)(CreateAppointment);
+    onAppointmentRequest = ({ date, selectedOption }) => {
+
+        console.log(this.state.doctor);
+        console.log(moment(date).valueOf());
+        console.log(selectedOption);
+        console.log(this.state.patient);
+
+        database.ref(`appointments`).push({
+            date:moment(date).valueOf(),
+            doctor:this.state.doctor,
+            patient:this.state.patient,
+            slot:selectedOption
+        })
+    }
+
+    render() {
+        return (
+            <div>
+                <br />
+                <br />
+                <p>Want to add a new appointment?</p>
+                <select defaultValue={"default"} onChange={this.onDoctorChange}>
+                    <option disabled={true} value="default">Please select a doctor...</option>
+                    <option value="stephen.strange">Stephen Strange</option>
+                    <option value="leonard.mccoy">Leonard McCoy</option>
+                </select>
+
+                {this.state.doctor == "" ? <div></div> : <DoctorsDay doctor={this.state.doctor} date={this.state.date} onSubmit={this.onAppointmentRequest} />}
+            </div>
+        )
+    }
+}

@@ -25,7 +25,7 @@ firebase.auth().onAuthStateChanged((user) => {
         store.dispatch(login(user.uid))
         database.ref(`doctors/${user.uid}`).once("value").then((snapshot) => {
             if (snapshot.exists()) history.push('/dashboard')
-            else history.push('/createAppointment')
+            else history.push('/patientDashboard')
         })
 
     } else {

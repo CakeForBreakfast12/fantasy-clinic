@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import { startLogout } from '../actions/auth'
 
 
-const DoctorDashboard = ({startLogout}) => {    
-    return(
-    <button onClick={startLogout}>Log Out</button>
+const DoctorDashboard = ({ startLogout }) => {
+    return (
+        <div>
+            <p>Your appointments for today</p>
+            <button onClick={startLogout}>Log Out</button>
+        </div>
+
     )
 };
 

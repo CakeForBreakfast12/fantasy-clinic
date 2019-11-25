@@ -47,7 +47,22 @@ const LoginForm = ({ user }) => {
                     });
                 break;
             }
-            case 'doctor': break;
+            case 'doctor':
+                const email = e.target.email.value;
+                const password = e.target.password.value;
+                firebase.auth().signInWithEmailAndPassword(email, password)
+                    .catch(function (error) {
+                        // Handle Errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        if (errorCode === 'auth/wrong-password') {
+                            alert('Wrong password.');
+                        } else {
+                            alert(errorMessage);
+                        }
+                        console.log(error);
+                    });
+                break;
             default:
                 break;
         }
