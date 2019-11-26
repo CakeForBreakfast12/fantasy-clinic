@@ -14,7 +14,6 @@ export const startGetAppointments = () => {
             const appointments = []
             snapshot.forEach(childSnapshot => {
                 const appointment = { ...childSnapshot.val() }
-                console.log(appointment.patientName);
                 if (appointment.patientUID == uid)
                     appointments.push({
                         id: childSnapshot.key,
@@ -41,7 +40,6 @@ export const addAppointment = (appointment) => ({
         patientUID = '0'
       } = appointmentData;
       const appointment = { time, doctor, patientName, patientUID };
-      console.log(appointment);
       
       return database.ref(`appointments`).push(appointment).then((ref) => {
         dispatch(addAppointment({

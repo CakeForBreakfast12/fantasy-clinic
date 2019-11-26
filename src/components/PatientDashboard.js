@@ -10,7 +10,6 @@ import moment from 'moment';
 const PatientDashboard = ({startLogout}) => {    
     return(
         <div>
-        <p>{moment().startOf('day').add(480,'minutes').format("dddd, MMMM Do YYYY, h:mm:ss a")}</p>
         <PatientAppointmentList />
         <CreateAppointment />
         <button onClick={startLogout}>Log Out</button>

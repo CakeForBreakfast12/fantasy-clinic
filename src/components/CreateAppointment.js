@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { SingleDatePicker } from 'react-dates';
 import DoctorsDay from './DoctorsDay';
 import database, { firebase } from '../firebase/firebase'
 import { connect } from 'react-redux';
@@ -12,14 +13,30 @@ export class CreateAppointment extends React.Component {
         this.state = {
             doctor: "",
             patientName: props.patientName ? props.patientName : "",
-            patientUID: props.patientUID ? props.patientUID : ""
+            patientUID: props.patientUID ? props.patientUID : "",
+            date: moment().startOf('day'),
+            calendarFocused: false
         };
     }
+
+    
 
 
     onDoctorChange = (e) => {
         const doctor = e.target.value
         this.setState(() => ({ doctor }))
+    }
+
+    onDateChange = (date) => {
+        if (date) {
+            date = moment(date).startOf('day')
+            this.setState(() => ({ date }))
+        }
+
+    }
+
+    onFocusChange = ({ focused }) => {
+        this.setState(() => ({ calendarFocused: focused }))
     }
 
     onAppointmentRequest = ({ time }) => {
@@ -49,7 +66,15 @@ export class CreateAppointment extends React.Component {
                     <option value="Leonard McCoy">Leonard McCoy</option>
                 </select>
 
-                {this.state.doctor == "" ? <div></div> : <DoctorsDay doctor={this.state.doctor} onSubmit={this.onAppointmentRequest} />}
+                <SingleDatePicker
+                    date={this.state.date}
+                    onDateChange={this.onDateChange}
+                    focused={this.state.calendarFocused}
+                    onFocusChange={this.onFocusChange}
+                    numberOfMonths={1}
+                />
+
+                {this.state.doctor == "" ? <div></div> : <DoctorsDay date={this.state.date} doctor={this.state.doctor} onSubmit={this.onAppointmentRequest} />}
             </div>
         )
     }

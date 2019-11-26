@@ -1,12 +1,15 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { SingleDatePicker } from 'react-dates';
+
+import doctorsBookings from '../selectors/doctorsBookings';
 
 
-export default class DoctorsDay extends React.Component {
+class DoctorsDay extends React.Component {
     constructor(props) {
-        super(props);
+        super(props); 
+        console.log(props);
+               
         this.state = {
             s1: true,
             s2: true,
@@ -22,20 +25,13 @@ export default class DoctorsDay extends React.Component {
             s12: true,
             time: 0,
             date: moment().startOf('day'),
-            calendarFocused: false
+            doctorsCalendar: props.doctorsCalendar ? props.doctorsCalendar : []           
         };
     }
 
-    onDateChange = (date) => {
-        if (date) {
-            date = moment(date).startOf('day')
-            this.setState(() => ({ date }))
-        }
-    }
+    
 
-    onFocusChange = ({ focused }) => {
-        this.setState(() => ({ calendarFocused: focused }))
-    }
+    
 
     handleOptionChange = (e) => {
         this.setState({ time: e.target.value })
@@ -53,13 +49,9 @@ export default class DoctorsDay extends React.Component {
     render() {
         return (
             <div>
-                <SingleDatePicker
-                    date={this.state.date}
-                    onDateChange={this.onDateChange}
-                    focused={this.state.calendarFocused}
-                    onFocusChange={this.onFocusChange}
-                    numberOfMonths={1}
-                />
+                
+                {console.log(this.state.doctorsCalendar)
+                }
 
                 <form onSubmit={this.onSubmit}>
                     {this.state.s1 &&
@@ -150,6 +142,14 @@ export default class DoctorsDay extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state, props) => {
+    return {
+        doctorsCalendar: doctorsBookings(state.appointments, props.doctor, props.date)
+    }
+}
+
+export default connect(mapStateToProps)(DoctorsDay);
 
 
 
