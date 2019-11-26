@@ -1,5 +1,3 @@
-import database from '../firebase/firebase';
-
 //Expenses Reducer
 
 const expensesReducerDefaultState = [];

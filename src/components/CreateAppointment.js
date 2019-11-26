@@ -2,31 +2,23 @@ import React from 'react';
 import moment from 'moment';
 import DoctorsDay from './DoctorsDay';
 import database, { firebase } from '../firebase/firebase'
+import { connect } from 'react-redux';
 
 
-export default class CreateAppointment extends React.Component {
+export class CreateAppointment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             doctor: "",
-            patient: ""
+            patient: props.patient ? props.patient : ""
         };
     }
 
-    componentDidMount() {
-        database.ref(`patients/${firebase.auth().currentUser.uid}/contactInfo/name`).once("value")
-            .then((snapshot) => {
-                this.setState(() => ({ patient: snapshot.val() }))
-            })
-    }
 
     onDoctorChange = (e) => {
         const doctor = e.target.value
         this.setState(() => ({ doctor }))
-
     }
-
-
 
     onAppointmentRequest = ({ date, selectedOption }) => {
 
@@ -36,10 +28,10 @@ export default class CreateAppointment extends React.Component {
         console.log(this.state.patient);
 
         database.ref(`appointments`).push({
-            date:moment(date).valueOf(),
-            doctor:this.state.doctor,
-            patient:this.state.patient,
-            slot:selectedOption
+            date: moment(date).valueOf(),
+            doctor: this.state.doctor,
+            patient: this.state.patient,
+            slot: selectedOption
         })
     }
 
@@ -60,3 +52,9 @@ export default class CreateAppointment extends React.Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    patient: state.patient.name
+})
+
+export default connect(mapStateToProps)(CreateAppointment)

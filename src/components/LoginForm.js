@@ -26,11 +26,13 @@ const LoginForm = ({ user }) => {
             }
 
             case 'new-patient': {
+                const name = e.target.name.value
                 const email = e.target.email.value;
                 const password = e.target.password.value;
                 const phone = e.target.telephoneNumber.value;
                 firebase.auth().createUserWithEmailAndPassword(email, password)
                     .then(() => {
+                        database.ref(`patients/${firebase.auth().currentUser.uid}/contactInfo`).child('name').set(name);
                         database.ref(`patients/${firebase.auth().currentUser.uid}/contactInfo`).child('email').set(email);
                         database.ref(`patients/${firebase.auth().currentUser.uid}/contactInfo`).child('phone').set(phone);
                     })
@@ -69,9 +71,10 @@ const LoginForm = ({ user }) => {
     }
     return (
         <form onSubmit={handleSubmit}>
-            <input type="text" name="email"></input>
-            <input type="text" name="password"></input>
-            {user === 'new-patient' && <input type="text" name="telephoneNumber"></input>}
+            {user === 'new-patient' && <input type="text" name="name" placeholder="Full name"></input>}
+            <input type="text" name="email" placeholder="Email"></input>
+            <input type="text" name="password" placeholder="Password"></input>
+            {user === 'new-patient' && <input type="text" name="telephoneNumber" placeholder="Phone Number"></input>}
             <button>Submit</button>
 
         </form>
