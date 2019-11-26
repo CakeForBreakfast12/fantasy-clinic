@@ -20,15 +20,17 @@ export default class DoctorsDay extends React.Component {
             s10: true,
             s11: true,
             s12: true,
-            selectedOption: "",
-            date: moment(),
+            time: 0,
+            date: moment().startOf('day'),
             calendarFocused: false
         };
     }
 
     onDateChange = (date) => {
-        if (date)
+        if (date) {
+            date = moment(date).startOf('day')
             this.setState(() => ({ date }))
+        }
     }
 
     onFocusChange = ({ focused }) => {
@@ -36,15 +38,14 @@ export default class DoctorsDay extends React.Component {
     }
 
     handleOptionChange = (e) => {
-        this.setState({ selectedOption: e.target.value })
+        this.setState({ time: e.target.value })
     }
 
     onSubmit = (e) => {
         e.preventDefault();
 
         this.props.onSubmit({
-            date: this.state.date,
-            selectedOption: this.state.selectedOption
+            time: moment(this.state.date).add(this.state.time, 'minutes')
         })
 
     }
@@ -63,76 +64,76 @@ export default class DoctorsDay extends React.Component {
                 <form onSubmit={this.onSubmit}>
                     {this.state.s1 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s1" onChange={this.handleOptionChange} />8:00--8:30</label>
+                            <label><input type="radio" name="slot" value={480} onChange={this.handleOptionChange} />8:00--8:30</label>
                         </div>
                     }
 
                     {this.state.s2 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s2" onChange={this.handleOptionChange} />8:30--9:00</label>
+                            <label><input type="radio" name="slot" value={510} onChange={this.handleOptionChange} />8:30--9:00</label>
                         </div>
                     }
 
                     {this.state.s3 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s3" onChange={this.handleOptionChange} />9:00--9:30</label>
+                            <label><input type="radio" name="slot" value={540} onChange={this.handleOptionChange} />9:00--9:30</label>
                         </div>
 
                     }
 
                     {this.state.s4 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s4" onChange={this.handleOptionChange} />9:30--10:00</label>
+                            <label><input type="radio" name="slot" value={570} onChange={this.handleOptionChange} />9:30--10:00</label>
                         </div>
                     }
                     {this.state.s5 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s5" onChange={this.handleOptionChange} />10:00--10:30</label>
+                            <label><input type="radio" name="slot" value={600} onChange={this.handleOptionChange} />10:00--10:30</label>
                         </div>
 
                     }
 
                     {this.state.s6 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s6" onChange={this.handleOptionChange} />10:30--11:00</label>
+                            <label><input type="radio" name="slot" value={630} onChange={this.handleOptionChange} />10:30--11:00</label>
                         </div>
                     }
                     {this.state.s7 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s7" onChange={this.handleOptionChange} />11:00--11:30</label>
+                            <label><input type="radio" name="slot" value={660} onChange={this.handleOptionChange} />11:00--11:30</label>
                         </div>
 
                     }
 
                     {this.state.s8 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s8" onChange={this.handleOptionChange} />11:30--12:00</label>
+                            <label><input type="radio" name="slot" value={690} onChange={this.handleOptionChange} />11:30--12:00</label>
                         </div>
                     }
 
                     {this.state.s9 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s9" onChange={this.handleOptionChange} />12:00--12:30</label>
+                            <label><input type="radio" name="slot" value={720} onChange={this.handleOptionChange} />12:00--12:30</label>
                         </div>
 
                     }
 
                     {this.state.s10 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s10" onChange={this.handleOptionChange} />12:30--13:00</label>
+                            <label><input type="radio" name="slot" value={750} onChange={this.handleOptionChange} />12:30--13:00</label>
                         </div>
                     }
 
                     {this.state.s11 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s11" onChange={this.handleOptionChange} />13:00--13:30</label>
+                            <label><input type="radio" name="slot" value={780} onChange={this.handleOptionChange} />13:00--13:30</label>
                         </div>
 
                     }
 
                     {this.state.s12 &&
                         <div>
-                            <label><input type="radio" name="slot" value="s12" onChange={this.handleOptionChange} />13:30--14:00</label>
+                            <label><input type="radio" name="slot" value={810} onChange={this.handleOptionChange} />13:30--14:00</label>
                         </div>
                     }
 

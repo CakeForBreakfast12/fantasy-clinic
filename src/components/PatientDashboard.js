@@ -4,11 +4,13 @@ import { startLogout } from '../actions/auth';
 import PatientAppointmentList from '../components/PatientAppointmentList';
 import CreateAppointment from '../components/CreateAppointment';
 import database, { firebase } from '../firebase/firebase'
+import moment from 'moment';
 
 
 const PatientDashboard = ({startLogout}) => {    
     return(
         <div>
+        <p>{moment().startOf('day').add(480,'minutes').format("dddd, MMMM Do YYYY, h:mm:ss a")}</p>
         <PatientAppointmentList />
         <CreateAppointment />
         <button onClick={startLogout}>Log Out</button>

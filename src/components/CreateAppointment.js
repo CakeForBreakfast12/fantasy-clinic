@@ -3,6 +3,7 @@ import moment from 'moment';
 import DoctorsDay from './DoctorsDay';
 import database, { firebase } from '../firebase/firebase'
 import { connect } from 'react-redux';
+import { startAddAppointment } from '../actions/appointments';
 
 
 export class CreateAppointment extends React.Component {
@@ -10,7 +11,8 @@ export class CreateAppointment extends React.Component {
         super(props);
         this.state = {
             doctor: "",
-            patient: props.patient ? props.patient : ""
+            patientName: props.patientName ? props.patientName : "",
+            patientUID: props.patientUID ? props.patientUID : ""
         };
     }
 
@@ -20,18 +22,18 @@ export class CreateAppointment extends React.Component {
         this.setState(() => ({ doctor }))
     }
 
-    onAppointmentRequest = ({ date, selectedOption }) => {
+    onAppointmentRequest = ({ time }) => {
 
         console.log(this.state.doctor);
-        console.log(moment(date).valueOf());
-        console.log(selectedOption);
-        console.log(this.state.patient);
+        console.log(moment(time).valueOf());
+        console.log(this.state.patientName);
+        console.log(this.state.patientUID);
 
-        database.ref(`appointments`).push({
-            date: moment(date).valueOf(),
+        this.props.startAddAppointment({
+            time: moment(time).valueOf(),
             doctor: this.state.doctor,
-            patient: this.state.patient,
-            slot: selectedOption
+            patientName: this.state.patientName,
+            patientUID: this.state.patientUID
         })
     }
 
@@ -43,18 +45,24 @@ export class CreateAppointment extends React.Component {
                 <p>Want to add a new appointment?</p>
                 <select defaultValue={"default"} onChange={this.onDoctorChange}>
                     <option disabled={true} value="default">Please select a doctor...</option>
-                    <option value="stephen.strange">Stephen Strange</option>
-                    <option value="leonard.mccoy">Leonard McCoy</option>
+                    <option value="Stephen Strange">Stephen Strange</option>
+                    <option value="Leonard McCoy">Leonard McCoy</option>
                 </select>
 
-                {this.state.doctor == "" ? <div></div> : <DoctorsDay doctor={this.state.doctor} date={this.state.date} onSubmit={this.onAppointmentRequest} />}
+                {this.state.doctor == "" ? <div></div> : <DoctorsDay doctor={this.state.doctor} onSubmit={this.onAppointmentRequest} />}
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => ({
-    patient: state.patient.name
+    patientName: state.patient.name,
+    patientUID: state.patient.uid
 })
 
-export default connect(mapStateToProps)(CreateAppointment)
+const mapDispatchToProps = (dispatch) => ({
+    startAddAppointment: (appointment) => dispatch(startAddAppointment(appointment)),
+    
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateAppointment)
