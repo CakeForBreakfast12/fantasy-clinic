@@ -5,16 +5,15 @@ import DoctorsDay from './DoctorsDay';
 import database, { firebase } from '../firebase/firebase'
 import { connect } from 'react-redux';
 import { startAddAppointment } from '../actions/appointments';
+import {startGetDoctorSchedule}from '../actions/patient';
 
 
 export class CreateAppointment extends React.Component {
     constructor(props) {
-        console.log(props.doctorsList[0].doctorName);
-
         super(props);
         this.state = {
             doctorID: "",
-            doctor: "",
+            doctorName: "",
             patientName: props.patientName ? props.patientName : "",
             patientUID: props.patientUID ? props.patientUID : "",
             date: moment().startOf('day'),
@@ -26,8 +25,12 @@ export class CreateAppointment extends React.Component {
 
 
     onDoctorChange = (e) => {
-        const doctor = e.target.value
-        this.setState(() => ({ doctor }))
+        const doctorID = e.target.value
+        const findDoctor=this.props.doctorsList.filter(doctor=>
+            doctor.doctorUID===e.target.value
+        )       
+        this.props.startGetDoctorSchedule(doctorID) 
+        this.setState(() => ({ doctorID,doctorName:findDoctor[0].doctorName }))
     }
 
     onDateChange = (date) => {
@@ -44,16 +47,17 @@ export class CreateAppointment extends React.Component {
 
     onAppointmentRequest = ({ time }) => {
 
-        console.log(this.state.doctor);
+        console.log(this.state.doctorID);
+        console.log(this.state.doctorName);
         console.log(moment(time).valueOf());
         console.log(this.state.patientName);
-        console.log(this.state.patientUID);
+        
 
         this.props.startAddAppointment({
             time: moment(time).valueOf(),
-            doctor: this.state.doctor,
-            patientName: this.state.patientName,
-            patientUID: this.state.patientUID
+            doctorID: this.state.doctorID,
+            doctorName: this.state.doctorName,
+            patientName: this.state.patientName
         })
     }
 
@@ -65,7 +69,7 @@ export class CreateAppointment extends React.Component {
                 <p>Want to add a new appointment?</p>
                 <select defaultValue={"default"} onChange={this.onDoctorChange}>
                     <option disabled={true} value="default">Please select a doctor...</option>
-                    {this.props.doctorsList.map(doctor => <option key={doctor.doctorUID} value={doctor.doctorName}>{doctor.doctorName}</option>)}
+                    {this.props.doctorsList.map(doctor => <option key={doctor.doctorUID} value={doctor.doctorUID}>{doctor.doctorName}</option>)}
                 </select>
 
                 <SingleDatePicker
@@ -76,7 +80,7 @@ export class CreateAppointment extends React.Component {
                     numberOfMonths={1}
                 />
 
-                {this.state.doctor == "" ? <div></div> : <DoctorsDay date={this.state.date} doctor={this.state.doctor} onSubmit={this.onAppointmentRequest} />}
+                {this.state.doctorName == "" ? <div></div> : <DoctorsDay date={this.state.date} doctor={this.state.doctor} onSubmit={this.onAppointmentRequest} />}
             </div>
         )
     }
@@ -90,7 +94,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     startAddAppointment: (appointment) => dispatch(startAddAppointment(appointment)),
-
+    startGetDoctorSchedule:(doctorID)=>dispatch(startGetDoctorSchedule(doctorID))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateAppointment)

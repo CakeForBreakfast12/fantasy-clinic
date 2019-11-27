@@ -1,6 +1,6 @@
 import database from '../firebase/firebase';
 
-// SET_EXPENSES
+// GET_APPOINTMENTS
 export const getAppointments = (appointments) => ({
   type: 'GET_APPOINTMENTS',
   appointments
@@ -24,51 +24,40 @@ export const startGetAppointments = (uid) => {
   };
 }
 
-//GET_DOCTORS_LIST
-export const getDoctorsList = (doctorsList) => ({
-  type: 'GET_DOCTORS_LIST',
-  doctorsList
-})
 
-export const startGetDoctorsList = () => {
-  return (dispatch, getState) => {
-    //const uid = getState().auth.uid
 
-    return database.ref(`doctors`).once('value').then(snapshot => {
-      const doctorsList = []
-      snapshot.forEach(childSnapshot => {
-        doctorsList.push({
-          doctorName: { ...childSnapshot.val() }.name,
-          doctorUID: childSnapshot.key
-        })
-      });
-      dispatch(getDoctorsList(doctorsList))
-    });
-  };
-}
-
-// ADD_EXPENSE
+// ADD_APPOINTMENT
 export const addAppointment = (appointment) => ({
   type: 'ADD_APPOINTMENT',
   appointment
 });
 
 export const startAddAppointment = (appointmentData = {}) => {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const {
       time = 0,
-      doctor = '',
+      doctorID = '',
+      doctorName = '',
       patientName = '',
-      patientUID = '0'
+      patientUID = getState().auth.uid
     } = appointmentData;
-    const appointment = { time, doctor };
+    const appointment = { time, doctorName };
+    const booking = { time, patientName }
 
-    return database.ref(`patients/${patientUID}/appointments`).push(appointment).then((ref) => {
-      dispatch(addAppointment({
-        id: ref.key,
-        ...appointment
-      }));
-    });
+    return (
+      database.ref(`doctors/${doctorID}/bookings`)
+        .push(booking)
+        .then(
+          database.ref(`patients/${patientUID}/appointments`)
+            .push(appointment)
+            .then((ref) => {
+              dispatch(addAppointment({
+                id: ref.key,
+                ...appointment
+              }));
+            })
+        )
+    )
   };
 };
 
