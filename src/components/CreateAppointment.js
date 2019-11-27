@@ -9,8 +9,11 @@ import { startAddAppointment } from '../actions/appointments';
 
 export class CreateAppointment extends React.Component {
     constructor(props) {
+        console.log(props.doctorsList[0].doctorName);
+
         super(props);
         this.state = {
+            doctorID: "",
             doctor: "",
             patientName: props.patientName ? props.patientName : "",
             patientUID: props.patientUID ? props.patientUID : "",
@@ -19,7 +22,7 @@ export class CreateAppointment extends React.Component {
         };
     }
 
-    
+
 
 
     onDoctorChange = (e) => {
@@ -62,8 +65,7 @@ export class CreateAppointment extends React.Component {
                 <p>Want to add a new appointment?</p>
                 <select defaultValue={"default"} onChange={this.onDoctorChange}>
                     <option disabled={true} value="default">Please select a doctor...</option>
-                    <option value="Stephen Strange">Stephen Strange</option>
-                    <option value="Leonard McCoy">Leonard McCoy</option>
+                    {this.props.doctorsList.map(doctor => <option key={doctor.doctorUID} value={doctor.doctorName}>{doctor.doctorName}</option>)}
                 </select>
 
                 <SingleDatePicker
@@ -82,12 +84,13 @@ export class CreateAppointment extends React.Component {
 
 const mapStateToProps = (state) => ({
     patientName: state.patient.name,
-    patientUID: state.patient.uid
+    patientUID: state.patient.uid,
+    doctorsList: state.patient.doctorsList
 })
 
 const mapDispatchToProps = (dispatch) => ({
     startAddAppointment: (appointment) => dispatch(startAddAppointment(appointment)),
-    
+
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateAppointment)

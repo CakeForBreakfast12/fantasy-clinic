@@ -5,9 +5,6 @@ import AppointmentListItem from './AppointmentListItem';
 
 const PatientAppointmentList = (props) => {
 
-    console.log(props);
-
-
     return (
         <div>
             <div>Hello,{props.patientName}</div>

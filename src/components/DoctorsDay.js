@@ -11,26 +11,28 @@ class DoctorsDay extends React.Component {
 
 
         this.state = {
-            s1: true,
-            s2: true,
-            s3: true,
-            s4: true,
-            s5: true,
-            s6: true,
-            s7: true,
-            s8: true,
-            s9: true,
-            s10: true,
-            s11: true,
-            s12: true,
+            dailyCalendar: [
+                { available: true, hours: "08:00 - 08:30" },
+                { available: true, hours: "08:30 - 09:00" },
+                { available: true, hours: "09:00 - 09:30" },
+                { available: true, hours: "09:30 - 10:00" },
+                { available: true, hours: "10:00 - 10:30" },
+                { available: true, hours: "10:30 - 11:00" },
+                { available: true, hours: "11:00 - 11:30" },
+                { available: true, hours: "11:30 - 12:00" },
+                { available: true, hours: "12:00 - 12:30" },
+                { available: true, hours: "12:30 - 13:00" },
+                { available: true, hours: "13:00 - 13:30" },
+                { available: true, hours: "13:30 - 14:00" }
+            ],
             time: 0,
-            date: moment().startOf('day'),
+            date: moment(props.date).startOf('day'),
             doctorsCalendar: props.doctorsCalendar ? props.doctorsCalendar : []
         };
     }
 
     static getDerivedStateFromProps(props, state) {
-        return ({ ...state, doctorsCalendar: props.doctorsCalendar })
+        return ({ ...state, doctorsCalendar: props.doctorsCalendar, date: props.date })
     }
 
 
@@ -41,6 +43,7 @@ class DoctorsDay extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+        console.log(this.state.date);
 
         this.props.onSubmit({
             time: moment(this.state.date).add(this.state.time, 'minutes')
@@ -52,10 +55,14 @@ class DoctorsDay extends React.Component {
         return (
             <div>
 
-                {console.log(this.state.doctorsCalendar)
-                }
+
 
                 <form onSubmit={this.onSubmit}>
+                    {this.state.dailyCalendar.map((slot,index) => slot.available &&
+                        <div key={`slot ${index}`}>
+                            <label ><input type="radio" name="slot" value={480+30*index} onChange={this.handleOptionChange} />{slot.hours}</label>
+                        </div>
+                    )}
                     {this.state.s1 &&
                         <div>
                             <label><input type="radio" name="slot" value={480} onChange={this.handleOptionChange} />8:00--8:30</label>
@@ -147,6 +154,7 @@ class DoctorsDay extends React.Component {
 
 const mapStateToProps = (state, props) => {
     return {
+        date: props.date,
         doctorsCalendar: doctorsBookings(state.appointments, props.doctor, props.date)
     }
 }
