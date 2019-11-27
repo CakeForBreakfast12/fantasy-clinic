@@ -7,9 +7,9 @@ import doctorsBookings from '../selectors/doctorsBookings';
 
 class DoctorsDay extends React.Component {
     constructor(props) {
-        super(props); 
-        console.log(props);
-               
+        super(props);
+
+
         this.state = {
             s1: true,
             s2: true,
@@ -25,13 +25,15 @@ class DoctorsDay extends React.Component {
             s12: true,
             time: 0,
             date: moment().startOf('day'),
-            doctorsCalendar: props.doctorsCalendar ? props.doctorsCalendar : []           
+            doctorsCalendar: props.doctorsCalendar ? props.doctorsCalendar : []
         };
     }
 
-    
+    static getDerivedStateFromProps(props, state) {
+        return ({ ...state, doctorsCalendar: props.doctorsCalendar })
+    }
 
-    
+
 
     handleOptionChange = (e) => {
         this.setState({ time: e.target.value })
@@ -49,7 +51,7 @@ class DoctorsDay extends React.Component {
     render() {
         return (
             <div>
-                
+
                 {console.log(this.state.doctorsCalendar)
                 }
 

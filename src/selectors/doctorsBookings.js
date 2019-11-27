@@ -10,6 +10,7 @@ export default (appointments, doctor, selectedDate) => {
             return doctorMatch && dateMatch
         })
         .sort((a, b) => a.time < b.time ? -1 : 1);
+        
     return appointments
 
 };
