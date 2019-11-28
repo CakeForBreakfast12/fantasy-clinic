@@ -1,9 +1,11 @@
 import database from '../firebase/firebase';
 
-//GET_PATIENT_NAME
-export const getPatientName = (name) => ({
-    type: 'GET_PATIENT_NAME',
-    name
+//GET_PATIENT_INFO
+export const getPatientInfo = ({name,email,phone}) => ({
+    type: 'GET_PATIENT_INFO',
+    name,
+    email,
+    phone
 })
 
 //GET_DOCTORS_LIST

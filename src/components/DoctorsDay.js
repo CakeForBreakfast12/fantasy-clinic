@@ -12,20 +12,7 @@ class DoctorsDay extends React.Component {
 
 
         this.state = {
-            dailyCalendar: [
-                { available: true, hours: "08:00 - 08:30" },
-                { available: true, hours: "08:30 - 09:00" },
-                { available: true, hours: "09:00 - 09:30" },
-                { available: true, hours: "09:30 - 10:00" },
-                { available: true, hours: "10:00 - 10:30" },
-                { available: true, hours: "10:30 - 11:00" },
-                { available: true, hours: "11:00 - 11:30" },
-                { available: true, hours: "11:30 - 12:00" },
-                { available: true, hours: "12:00 - 12:30" },
-                { available: true, hours: "12:30 - 13:00" },
-                { available: true, hours: "13:00 - 13:30" },
-                { available: true, hours: "13:30 - 14:00" }
-            ],
+            dailyCalendar: [],
             time: 0,
             date: moment(props.date).startOf('day')
         };
@@ -79,7 +66,7 @@ class DoctorsDay extends React.Component {
                     </div>
                 </form>
 
-                
+
             </div>
 
         )

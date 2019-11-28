@@ -38,15 +38,22 @@ export const startAddAppointment = (appointmentData = {}) => {
       time = 0,
       doctorID = '',
       doctorName = '',
-      patientName = '',
-      patientUID = getState().auth.uid
+      patientName = getState().patient.name,
+      patientUID = getState().auth.uid,
+      patientEmail = getState().patient.email,
+      patientPhone = getState().patient.phone
     } = appointmentData;
     const appointment = { time, doctorName };
-    const booking = { time, patientName }
+    const booking = { time, }
+    const patientInfo = { patientName, patientEmail, patientPhone }
 
     return (
       database.ref(`doctors/${doctorID}/bookings`)
         .push(booking)
+        .then((ref) =>
+          database.ref(`doctors/${doctorID}/bookings/${ref.key}/patientInfo`)
+            .set(patientInfo)
+        )
         .then(
           database.ref(`patients/${patientUID}/appointments`)
             .push(appointment)

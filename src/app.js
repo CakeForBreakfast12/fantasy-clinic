@@ -9,9 +9,9 @@ import 'react-dates/lib/css/_datepicker.css';
 import { login, logout } from './actions/auth';
 import { firebase } from './firebase/firebase';
 import database from './firebase/firebase';
-import { getPatientName, startGetDoctorsList } from './actions/patient';
+import { getPatientInfo, startGetDoctorsList } from './actions/patient';
 import { startGetAppointments } from './actions/appointments';
-
+import { startGetDoctorBookings } from './actions/doctor';
 
 
 const store = configureStore();
@@ -27,13 +27,17 @@ firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         store.dispatch(login(user.uid))
         database.ref(`doctors/${user.uid}`).once("value").then((snapshot) => {
-            if (snapshot.exists()) history.push('/dashboard')
+            if (snapshot.exists()) {
+                store.dispatch(startGetDoctorBookings(user.uid))
+                history.push('/dashboard')
+            }
             else {
                 store.dispatch(startGetDoctorsList())
                 store.dispatch(startGetAppointments(user.uid))
-                database.ref(`patients/${user.uid}/contactInfo/name`).once("value")
+                database.ref(`patients/${user.uid}/contactInfo`).once("value")
                     .then((snapshot) => {
-                        store.dispatch(getPatientName(snapshot.val()))
+
+                        store.dispatch(getPatientInfo(snapshot.val()))
                         history.push('/patientDashboard')
                     })
 
