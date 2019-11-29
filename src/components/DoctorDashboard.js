@@ -7,16 +7,20 @@ import DoctorsWeeklyCalendar from './DoctorsWeeklyCalendar';
 const DoctorDashboard = (props) => {
     return (
         <div>
-            <p>Your appointments for today</p>
-            <DoctorsWeeklyCalendar />
-            <button onClick={props.startLogout}>Log Out</button>
+            <p>{`Hello, ${props.name}!`}</p>
+            <DoctorsWeeklyCalendar bookings={props.bookings} />
+            <div>
+                <button onClick={props.startLogout}>Log Out</button>
+            </div>
+
         </div>
 
     )
 };
 
 const mapStateToProps = (state) => ({
-    bookings: state.doctor.allBookings
+    bookings: state.doctor.allBookings,
+    name:state.doctor.name
 })
 
 const mapDispatchToProps = (dispatch) => ({

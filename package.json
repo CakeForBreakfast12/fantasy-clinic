@@ -12,6 +12,9 @@
     "heroku-postbuild": "yarn run build:prod"
   },
   "dependencies": {
+    "@fullcalendar/core": "^4.3.1",
+    "@fullcalendar/daygrid": "^4.3.0",
+    "@fullcalendar/react": "^4.3.0",
     "babel-cli": "6.24.1",
     "babel-core": "6.25.0",
     "babel-loader": "7.1.1",
@@ -22,6 +25,7 @@
     "css-loader": "^3.2.0",
     "express": "^4.17.1",
     "firebase": "^7.3.0",
+    "fullcalendar": "^3.10.1",
     "history": "^4.10.1",
     "mini-css-extract-plugin": "^0.8.0",
     "moment": "^2.24.0",

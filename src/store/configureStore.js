@@ -9,13 +9,22 @@ import doctorReducer from '../reducers/doctor'
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default () => {
+    const appReducer = combineReducers({
+        auth: authReducer,
+        patient: patientReducer,
+        appointments: appointmentsReducer,
+        doctor: doctorReducer
+    })
+
+    const rootReducer=(state,action)=>{
+        if(action.type==="LOGOUT"){
+            return appReducer(undefined,action)
+        }
+        return appReducer(state, action)
+    }
+
     const store = createStore(
-        combineReducers({
-            auth: authReducer,
-            patient: patientReducer,
-            appointments: appointmentsReducer,
-            doctor: doctorReducer
-        }),
+        rootReducer,
         composeEnhancers(applyMiddleware(thunk))
     );
 

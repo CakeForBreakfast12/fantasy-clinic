@@ -1,18 +1,16 @@
-import { firebase} from '../firebase/firebase'
+import { firebase } from '../firebase/firebase'
 
 export const login = (uid) => ({
-    type:'LOGIN',
+    type: 'LOGIN',
     uid
 })
 
-
-
 export const logout = () => ({
-    type:'LOGOUT'
+    type: 'LOGOUT'
 })
 
-export const startLogout =() =>{
-    return()=>{
+export const startLogout = () => {
+    return () => {
         return firebase.auth().signOut();
     }
 }

@@ -1,8 +1,8 @@
 //Expenses Reducer
 
-const appointmentsReducerDefaultState = [];
 
-export default (state = appointmentsReducerDefaultState, action) => {
+
+export default (state = [], action) => {
     switch (action.type) {
         case 'GET_APPOINTMENTS':return action.appointments  
         case 'ADD_APPOINTMENT': return [...state, action.appointment]   

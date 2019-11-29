@@ -23,3 +23,17 @@ export const startGetDoctorBookings = (doctorID) => {
         });
     };
 }
+
+//GET_DOCTOR_NAME
+export const getDoctorName = (name) => ({
+    type: 'GET_DOCTOR_NAME',
+    name
+})
+
+export const startGetDoctorName = (doctorID) => {
+    return (dispatch, getState) => {
+        return database.ref(`doctors/${doctorID}/name`).once('value').then(snapshot => {
+            dispatch(getDoctorName(snapshot.val()))
+        });
+    };
+}

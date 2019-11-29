@@ -51,7 +51,8 @@ class DoctorsDay extends React.Component {
     render() {
         return (
             <div>
-
+{
+}
                 <form onSubmit={this.onSubmit}>
                     {this.state.dailyCalendar.map((slot, index) => slot.available &&
                         <div key={`slot ${index}`}>

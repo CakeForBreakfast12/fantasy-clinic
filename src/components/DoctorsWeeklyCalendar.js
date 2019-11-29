@@ -1,35 +1,69 @@
 import React from 'react'
-import moment from 'moment';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-const localizer = momentLocalizer(moment);
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import moment from 'moment'
 
-const CalendarContainer = () => {
-
-    let events = [{
-        title: 'event',
-        start: moment().startOf('day').add(8, 'hours').toDate(),
-        end: moment().startOf('day').add(9, 'hours').toDate(),
-        allDay: false
-    }]
+import '../styles/styles.scss'
 
 
 
 
-    const divStyle = {
-        height: '500px',
+const DoctorsWeeklyCalendar = (props) => {
+    let events = []
+
+    if (props.bookings.length) {
+        events = props.bookings.map(booking => ({
+            title: `${booking.patientInfo.patientName} 
+                          ✆ ${booking.patientInfo.patientPhone}
+                          ✉ ${booking.patientInfo.patientEmail}`,
+            start: moment(booking.time).toDate(),
+            end: moment(booking.time).add(30, 'minutes').toDate(),
+            allDay: false
+        })
+        )
     }
 
+
     return (
-        <div style={divStyle}>
-            <Calendar
-                culture={"en-GB"}
-                localizer={localizer}
-                events={events}
-            />
-        </div>
-    );
+        <FullCalendar
+            plugins={[dayGridPlugin]}
+            defaultView="dayGridWeek"
+            header={{
+                left: 'prev,next',
+                center: 'title',
+                right: 'dayGridMonth,dayGridWeek,dayGridDay'
+            }}
+            weekends={false}
+            events={events}
+            height={500}
+        />
+    )
+
 
 }
 
-export default CalendarContainer;
+export default DoctorsWeeklyCalendar;
+
+// const DoctorsWeeklyCalendar = (props) => {
+
+//     //Convert bookings from firebase to a format readable by the calendar
+//     
+// 
+
+
+//     const divStyle = {
+//         height: '500px',
+//     }
+
+//     return (
+//         <div style={divStyle}>
+//             <Calendar
+//                 culture={"en-GB"}
+//                 localizer={localizer}
+//                 events={events}
+//             />
+//         </div>
+//     );
+
+// }
+
