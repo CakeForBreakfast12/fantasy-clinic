@@ -7,7 +7,7 @@ export default (schedule, day) => {
     //Filters the arrey of appointments to only those thate are on the selected day
     schedule = schedule.filter((booking) => {
         const isBookingOnTheSameDay = moment(booking).isSame(day, 'day')
-        
+
         return isBookingOnTheSameDay
     })
 
@@ -24,14 +24,16 @@ export default (schedule, day) => {
     })
 
     //second we set those slots that are after the time of viewing to false to not render any slots that are in the past
-    if(moment().isSame(day,'day'))     
-    slots.map((slot,index)=>{
-        const momentOfSlot=moment(day).startOf('day').add(480+30*index,'minutes').valueOf()
-        slots[index]= moment().isBefore(momentOfSlot)
-    }
+    if (moment().isSame(day, 'day'))
+        slots.map((slot, index) => {
+            const momentOfSlot = moment(day).startOf('day').add(480 + 30 * index, 'minutes').valueOf()
+            if (slots[index]) {
+                slots[index] = moment().isBefore(momentOfSlot)
+            }
+        }
 
-        
-    )
+
+        )
 
 
 
@@ -43,7 +45,7 @@ export default (schedule, day) => {
         if (slot == true) newDailyCalendar[index] = { available: true, hours: slotTexts[index] }
         else newDailyCalendar[index] = { available: false, hours: slotTexts[index] }
     })
-    
+
 
     return newDailyCalendar;
 
