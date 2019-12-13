@@ -8,26 +8,24 @@ import doctorsBookings from '../selectors/doctorsBookings';
 class DoctorsDay extends React.Component {
     constructor(props) {
         super(props);
-        
 
         this.state = {
             dailyCalendar: [],
             time: 0,
-            date: moment(props.date).startOf('day')
-            
+            date: moment(props.date).startOf('day'),
+            submitButtonDisabled: true
         };
-        
+
     }
 
     static getDerivedStateFromProps(props, state) {
         return ({ ...state, dailyCalendar: props.dailyCalendar, date: props.date })
     }
 
-    
+
 
     handleOptionChange = (e) => {
-        
-        this.setState({ time: e.target.value })
+        this.setState({ time: e.target.value, submitButtonDisabled: false })
     }
 
     onSubmit = (e) => {
@@ -39,37 +37,22 @@ class DoctorsDay extends React.Component {
     }
 
 
-
-    updateDoctorsSchedule = (array) => {
-        array.map(slot => console.log(slot))
-
-        this.setState({
-            doctorsSchedule: [...array]
-        }
-
-        )
-    }
-
     render() {
         return (
             <div>
-                {
-                }
-                <form onSubmit={this.onSubmit}>
-                    {this.state.dailyCalendar.map((slot, index) => slot.available &&
-                        <div key={`slot ${index}`}>
-                            <label ><input type="radio" name="slot" value={480 + 30 * index} onChange={this.handleOptionChange} />{slot.hours}</label>
-                        </div>
-                    )}
-                    {
-                    }
-                    <div className="form-group">
-                        <button className="btn btn-primary mt-2" type="submit">
+                {this.state.dailyCalendar.find(slot => slot.available == true) &&
+                    <form onSubmit={this.onSubmit}>
+                        {this.state.dailyCalendar.map((slot, index) => slot.available &&
+                            <div key={`slot ${index}`}>
+                                <label ><input type="radio" name="slot" value={480 + 30 * index} onChange={this.handleOptionChange} />{slot.hours}</label>
+                            </div>
+                        )}
+                        <button disabled={this.state.submitButtonDisabled} className="btn btn-primary mt-2" type="submit">
                             Save
                     </button>
-                    </div>
-                </form>
 
+                    </form>
+                }
 
             </div>
 

@@ -36,6 +36,9 @@ const DoctorsWeeklyCalendar = (props) => {
             weekends={false}
             events={events}
             height={500}
+            selectable={true}
+            select={()=>alert('selected ' + info.startStr + ' to ' + info.endStr)}
+                
         />
     )
 
@@ -44,26 +47,4 @@ const DoctorsWeeklyCalendar = (props) => {
 
 export default DoctorsWeeklyCalendar;
 
-// const DoctorsWeeklyCalendar = (props) => {
-
-//     //Convert bookings from firebase to a format readable by the calendar
-//     
-// 
-
-
-//     const divStyle = {
-//         height: '500px',
-//     }
-
-//     return (
-//         <div style={divStyle}>
-//             <Calendar
-//                 culture={"en-GB"}
-//                 localizer={localizer}
-//                 events={events}
-//             />
-//         </div>
-//     );
-
-// }
 

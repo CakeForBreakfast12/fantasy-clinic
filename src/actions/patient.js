@@ -54,13 +54,34 @@ export const getDoctorSchedule = (schedule) => ({
 
 export const startGetDoctorSchedule = (doctorID) => {
     return (dispatch) => {
-        return database.ref(`doctors/${doctorID}/bookings`).once('value').then(snapshot => {
+        return database.ref(`doctors/${doctorID}`).once('value').then(snapshot => {
             let schedule = [];
             snapshot.forEach(childSnapshot => {
-                schedule.push({ ...childSnapshot.val() }.time)
+                switch (childSnapshot.key) {
+                    case 'bookings': {
+                        childSnapshot.forEach(grandchildSnapshot => {
+                            schedule.push({ ...grandchildSnapshot.val() }.time);
+                        });
+                        break;
+                    }
+                    case 'name': break;
+                    case 'vacations': {
+                        childSnapshot.forEach(grandchildSnapshot => {
+                            const startOfDay = moment(grandchildSnapshot.val()).startOf('day')
+                            const startOfWorkDay = startOfDay.add(7, "hours").add(30,'minutes')
+                            for (let index = 0; index < 12; index++) {
+                                schedule.push(startOfWorkDay.add(30, 'minutes').valueOf());
+                            }
+                        });
+                        break;
+                    }
+                    default:
+                        break;
+                }
             })
+
+
             schedule = schedule.filter(booking => moment(booking).isAfter(moment()))
-            
 
             dispatch(getDoctorSchedule(schedule));
         })

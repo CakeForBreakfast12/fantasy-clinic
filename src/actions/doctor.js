@@ -37,3 +37,29 @@ export const startGetDoctorName = (doctorID) => {
         });
     };
 }
+
+//GET_DOCTOR_VACATIONS
+export const getDoctorVacations = (vacations) => ({
+    type: 'GET_DOCTOR_VACATIONS',
+    vacations
+})
+
+export const startGetDoctorVacations = (doctorID) => {
+    return (dispatch, getState) => {
+        return database.ref(`doctors/${doctorID}/vacations`).once('value').then(snapshot => {
+            const vacations=[];
+            snapshot.forEach(childSnapshot=>{
+                vacations.push(childSnapshot.val())                
+            })
+            dispatch(getDoctorVacations(vacations))
+        });
+    };
+}
+
+export const startUpdateVacations = (vacations) => {
+    return (dispatch, getState) => {
+        const doctorID = getState().auth.uid
+        return database.ref(`doctors/${doctorID}/vacations`).set(vacations)
+            
+        };
+    };

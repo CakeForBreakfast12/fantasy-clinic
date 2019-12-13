@@ -11,7 +11,7 @@ import { firebase } from './firebase/firebase';
 import database from './firebase/firebase';
 import { startGetPatientInfo, startGetDoctorsList } from './actions/patient';
 import { startGetAppointments } from './actions/appointments';
-import { startGetDoctorBookings,startGetDoctorName } from './actions/doctor';
+import { startGetDoctorBookings,startGetDoctorName,startGetDoctorVacations } from './actions/doctor';
 
 
 const store = configureStore();
@@ -30,6 +30,7 @@ firebase.auth().onAuthStateChanged((user) => {
             if (snapshot.exists()) {
                 store.dispatch(startGetDoctorBookings(user.uid))
                 store.dispatch(startGetDoctorName(user.uid))
+                store.dispatch(startGetDoctorVacations(user.uid))
                 history.push('/dashboard')
             }
             else {
