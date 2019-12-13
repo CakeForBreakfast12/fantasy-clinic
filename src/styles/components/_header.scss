@@ -1,0 +1,49 @@
+.header {
+    font-family: "Open Sans", sans-serif;
+    width: 100vw;
+    height: 30vh;
+    background: url('/images/medical-header.png');
+    background-size: 145em;
+    background-repeat: no-repeat;
+    background-position: center top;
+
+}
+
+.navbar-brand {
+    
+    font-size: 20px;
+    margin: 0;
+    padding: 5px;
+    color:#2293d2
+}
+
+#brand-bold {
+    font-family: 'Lakki Reddy', cursive !important;
+    font-size: 40px;
+}
+
+#create-booking-button {
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    color:#2293d2;
+    text-align: center;
+    padding: 20px;
+    width: 60%;
+    font-size: $m-size;
+}
+
+#create-booking-button-symbol {
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+}
+
+
+
+.btn-lg {
+    font-size: 0.7em;
+}
+
+.btn-group {
+    margin: 10px !important;
+
+}
