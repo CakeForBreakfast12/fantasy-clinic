@@ -1,38 +1,60 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faNotesMedical } from '@fortawesome/free-solid-svg-icons'
+import LoginModal from './LoginModal';
 
-const Header = () => (
-    <header className="header">
-        <div >
-            <h1 className="navbar-brand"><b id="brand-bold">FANTASY</b> CLINIC</h1>
-            <br />
-            <div className="d-flex p-2 justify-content-center">
+class Header extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            patientType: undefined
+        }
+    }
 
-                <div className="btn-group " role="group">
-                    <NavLink className="btn btn-secondary btn-lg btn-light btn-outline-info" to="/" activeClassName="btn-secondary active" exact={true}>Home</NavLink>
-                    <NavLink className="btn btn-secondary btn-lg btn-light btn-outline-info" to="/services" activeClassName="btn-secondary active">Services</NavLink>
-                    <NavLink className="btn btn-secondary btn-lg btn-light btn-outline-info" to="/doctors" activeClassName="btn-secondary active">Our Team</NavLink>
-                    <NavLink className="btn btn-secondary btn-lg btn-light btn-outline-info" to="/drlogin" activeClassName="btn-secondary active">Doctor's login</NavLink>
+    handleOpenModal = () => {
+        this.setState(() => ({ patientType: 'patient' }))
+    }
+
+    handleDoctorOpensModal = () => {
+        this.setState(() => ({ patientType: 'doctor' }))
+    }
+
+    handleCloseModal = () => {
+        this.setState(() => ({ patientType: undefined }))
+    }
+
+    handleUserTypeChange = () => {
+        this.setState((prevState) => {
+            if (prevState.patientType == 'patient') return { patientType: 'new-patient' }
+            else return { patientType: 'patient' }
+        })
+    }
+
+    render() {
+        return (
+            <div className="wrapper header">
+                <div className="content-container content-container--header">
+                    <div className="header__brand"><b>FANTASY</b> CLINIC</div>
+                    <div>
+                        <NavLink className="button" to="/" activeClassName="button button--nav-active" exact={true}>HOME</NavLink>
+                        <NavLink className="button" to="/services" activeClassName="button button--nav-active">SERVICES</NavLink>
+                        <NavLink className="button" to="/doctors" activeClassName="button button--nav-active">OUR TEAM</NavLink>
+                        <a className="button" onClick={this.handleDoctorOpensModal} >DOCTOR'S LOGIN</a>
+                    </div>
                 </div>
 
+                <div className="content-container content-container--login-buton" >
+                    <button className="button button--green" onClick={this.handleOpenModal}>Book an appointment</button>
+                </div>
+
+
+                <LoginModal
+                    user={this.state.patientType}
+                    toggleUserTypeChange={this.handleUserTypeChange}
+                    closeModal={this.handleCloseModal}
+                />
             </div>
-            <div className="d-flex p-1 justify-content-center">
-                <NavLink id="create-booking-button" to="/login" activeClassName="is-active">
-                    
-                        <FontAwesomeIcon text-align="center" id="create-booking-button-symbol" icon={faNotesMedical} size="3x" />
-                        <br/>Book an appointment
-                    
-                </NavLink>
-            </div>
-        </div>
+        );
 
-
-
-    </header>
-);
-
-
-
+    }
+}
 export default Header;

@@ -70,12 +70,12 @@ const LoginForm = ({ user }) => {
         }
     }
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="login-form">
             {user === 'new-patient' && <input type="text" name="name" placeholder="Full name"></input>}
             <input type="text" name="email" placeholder="Email"></input>
             <input type="text" name="password" placeholder="Password"></input>
             {user === 'new-patient' && <input type="text" name="telephoneNumber" placeholder="Phone Number"></input>}
-            <button>Submit</button>
+            <input className="button button--green" type="submit" value="Submit"/>
 
         </form>
     )

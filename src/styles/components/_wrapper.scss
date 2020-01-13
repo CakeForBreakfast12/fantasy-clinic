@@ -1,0 +1,61 @@
+.wrapper {
+    color: white;
+    background-color: $fantasy-dark-blue;
+
+    &.header {
+        box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19)
+    }
+}
+
+.header__brand {
+    padding: 0.5rem;
+    font-family: "Open Sans", sans-serif;
+    font-size: 2.5rem;
+
+    b {
+        font-family: 'Lakki Reddy', cursive;
+        font-size: 3rem;
+    }
+}
+
+
+
+
+// .navbar-brand {
+
+//     font-size: 20px;
+//     margin: 0;
+//     padding: 5px;
+//     color:#2293d2
+// }
+
+// #brand-bold {
+//     font-family: 'Lakki Reddy', cursive !important;
+//     font-size: 40px;
+// }
+
+// #create-booking-button {
+//     text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+//     color:#2293d2;
+//     text-align: center;
+//     padding: 20px;
+//     width: 60%;
+//     font-size: $m-size;
+// }
+
+// #create-booking-button-symbol {
+//     display: inline-block;
+//     width: 100%;
+//     vertical-align: middle;
+// }
+
+
+
+// .btn-lg {
+//     font-size: 0.7em;
+// }
+
+// .btn-group {
+//     margin: 10px !important;
+
+// }

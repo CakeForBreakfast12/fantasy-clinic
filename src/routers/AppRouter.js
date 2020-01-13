@@ -23,8 +23,8 @@ const AppRouter = () => (
             <PublicRoute path="/doctors" component={Doctors} />
             <PrivateRoute path="/dashboard" component={DoctorDashboard} />
             <PrivateRoute path="/patientDashboard" component={PatientDashboard} />
-            <Route path="/login" render={(props)=><LoginPage {...props} user={'patient'} />} />
-            <Route path="/register" render={(props)=><LoginPage {...props} user={'new-patient'} />} />
+            
+
             <Route path="/drlogin" render={(props)=><LoginPage {...props} user={'doctor'} />} />
             <Route component={NotFoundPage} />
         </Switch>
