@@ -39,21 +39,21 @@ class DoctorsDay extends React.Component {
 
     render() {
         return (
-            <div>
-                {this.state.dailyCalendar.find(slot => slot.available == true) &&
+            <div className="article small">
+                <h2>{moment(this.state.date).format("dddd, MMMM Do YYYY")}</h2>
+                {this.state.dailyCalendar.find(slot => slot.available == true) ? (
                     <form onSubmit={this.onSubmit}>
                         {this.state.dailyCalendar.map((slot, index) => slot.available &&
-                            <div key={`slot ${index}`}>
+                            <div className="slot" key={`slot ${index}`}>
                                 <label ><input type="radio" name="slot" value={480 + 30 * index} onChange={this.handleOptionChange} />{slot.hours}</label>
                             </div>
                         )}
-                        <button disabled={this.state.submitButtonDisabled} className="btn btn-primary mt-2" type="submit">
+                        <button disabled={this.state.submitButtonDisabled} className="button button--green" type="submit">
                             Save
-                    </button>
-
+                        </button>
                     </form>
+                ) : (<p>No more slots available today</p>)
                 }
-
             </div>
 
         )

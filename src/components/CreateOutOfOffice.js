@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { startUpdateVacations } from '../actions/doctor';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 class CreateOutOfOffice extends React.Component {
     constructor(props) {
@@ -46,7 +48,7 @@ class CreateOutOfOffice extends React.Component {
                 moment("26 Dec", "DD MMM").add(1, 'year').toDate(),
             ],
             selectedDays: [],
-            meessage:""
+            meessage: ""
         };
     }
 
@@ -65,7 +67,7 @@ class CreateOutOfOffice extends React.Component {
             } else {
                 selectedDays.push(day);
             }
-        this.setState({ selectedDays, message:"" });
+        this.setState({ selectedDays, message: "" });
     }
 
     handleOnSubmit = (e) => {
@@ -94,14 +96,17 @@ class CreateOutOfOffice extends React.Component {
                         numberOfMonths={2}
                     />
                     <p>
-                        {`Total vacation days used in ${moment().format("YYYY")}:${this.state.selectedDays.filter(day=>moment(day).isSame(moment(),'year')).length}`}
+                        {`Total vacation days used in ${moment().format("YYYY")}:${this.state.selectedDays.filter(day => moment(day).isSame(moment(), 'year')).length}`}
                     </p>
                     <p>
-                        {`Total vacation days used in ${moment().add(1,'year').format("YYYY")}:${this.state.selectedDays.filter(day=>moment(day).isSame(moment().add(1,'year'),'year')).length}`}
+                        {`Total vacation days used in ${moment().add(1, 'year').format("YYYY")}:${this.state.selectedDays.filter(day => moment(day).isSame(moment().add(1, 'year'), 'year')).length}`}
                     </p>
-                    <p>
-                        <button type="submit">Update Free Days</button>{this.state.message}
-                    </p>
+                    <div>
+                        <button className="button button--green" type="submit">Update Free Days</button>
+                    </div>
+                    <div >
+                        {this.state.message && <div className="message-success extra-margin"><FontAwesomeIcon icon={faCheck} /> {this.state.message} </div>}
+                    </div>
 
                 </form>
             </div>

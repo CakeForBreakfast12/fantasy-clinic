@@ -3,17 +3,32 @@ import { connect } from 'react-redux';
 import { startLogout } from '../actions/auth';
 import DoctorsWeeklyCalendar from './DoctorsWeeklyCalendar';
 import CreateOutOfOffice from './CreateOutOfOffice';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 
 
 const DoctorDashboard = (props) => {
     return (
         <div>
-            <p>{`Hello, ${props.name}!`}</p>
-            <DoctorsWeeklyCalendar bookings={props.bookings} />
-            <CreateOutOfOffice />
-            <div>
-                <button onClick={props.startLogout}>Log Out</button>
+            <div className="wrapper header">
+                <div className="content-container content-container--header">
+                    <div className="header__brand"><b>FANTASY</b> CLINIC</div>
+                    <p>{`Hello, ${props.name}!`}</p>
+                    <a className="button button--link register-login-text" onClick={props.startLogout}>Log Out <FontAwesomeIcon icon={faSignOutAlt} /></a>
+                </div>
+
             </div>
+            <div className="content-container col2-container">
+                <div className="article-column-left">
+                    <DoctorsWeeklyCalendar bookings={props.bookings} />
+                </div>
+                <div className="article-column-right">
+                    <CreateOutOfOffice />
+                </div>
+
+
+            </div>
+
 
         </div>
 
@@ -22,7 +37,7 @@ const DoctorDashboard = (props) => {
 
 const mapStateToProps = (state) => ({
     bookings: state.doctor.allBookings,
-    name:state.doctor.name
+    name: state.doctor.name
 })
 
 const mapDispatchToProps = (dispatch) => ({

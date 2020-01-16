@@ -21,9 +21,62 @@
         line-height: 32px;
     }
 
-    strong{
+    strong {
         font-weight: bold;
     }
+
+    &.small {
+        h1 {
+            font-size: 40px;
+        }
+
+        h2 {
+            font-size: 20px;
+
+            @media (max-width: 1200px) {
+                font-size: 16px;
+            }
+
+            @media (max-width: 370px) {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            font-size: 16px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        h1 {
+            font-size: 38px;
+            letter-spacing: -1px;
+            line-height: 46px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        font-size: 15px;
+        line-height: 20px;
+
+        h1 {
+            font-size: 24px;
+            line-height: 32px;
+        }
+
+        h2 {
+            font-size: 20px;
+            line-height: 24px;
+        }
+    }
+}
+
+.card-article {
+    color: $dark-blue;
+    font-size: 15px;
+    font-weight: 100;
+    letter-spacing: 0.2px;
+    line-height: 25px;
 }
 
 .contact-text {
@@ -33,7 +86,7 @@
         font-family: 'Arimo';
         font-size: 28px;
         font-weight: 700;
-        
+
     }
 
     h2 {
@@ -41,5 +94,74 @@
         font-size: 18px;
         font-weight: 700;
         text-decoration: underline;
+    }
+
+    @media (max-width: 370px) {
+        font-size: 12px;
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+    }
+}
+
+.col2-container {
+    text-align: center;
+
+    h1 {
+        color: white;
+        padding: 30px;
+        border-radius: 50%;
+        position: relative;
+        margin: 0 auto 20px auto;
+        width: fit-content;
+        background-color: $fantasy-dark-blue;
+    }
+}
+
+
+.header__brand {
+    padding: 0.5rem;
+    font-family: "Open Sans", sans-serif;
+    font-size: 2.5rem;
+
+    b {
+        font-family: 'Lakki Reddy', cursive;
+        font-size: 3rem;
+    }
+
+    @media (max-width: 992px) {
+        font-size: 2rem;
+
+        b {
+            font-size: 2.5rem;
+        }
+    }
+
+    @media (max-width: 370px) {
+        font-size: 0.7rem;
+
+        b {
+            font-size: 1.2rem;
+        }
+    }
+}
+
+.message-success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    padding: 18px;
+    width: fit-content;
+    text-align: center;
+
+    &.extra-margin {
+        margin: 25px auto;
     }
 }

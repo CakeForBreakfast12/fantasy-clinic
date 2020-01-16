@@ -6,6 +6,8 @@ import DoctorsDay from './DoctorsDay';
 import { connect } from 'react-redux';
 import { startAddAppointment } from '../actions/appointments';
 import { startGetDoctorSchedule } from '../actions/patient';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 
 export class CreateAppointment extends React.Component {
@@ -80,8 +82,8 @@ export class CreateAppointment extends React.Component {
         //check if there are any appointments today, if so, treat today differently from all the other days in the calendar
         let sameDayschedule = scheduleArray.filter(appointment => moment(appointment).isSame(moment(), "day"))
         if (sameDayschedule.length == 0 && moment().isAfter(endOfWorkDay))
-            fullyBookedDays.push(moment().toDate()) 
-        if (sameDayschedule.length) {            
+            fullyBookedDays.push(moment().toDate())
+        if (sameDayschedule.length) {
             let nearestSlot;
             if (moment().minute() < 30)
                 nearestSlot = moment().startOf("hour").add(30, "minutes")
@@ -101,7 +103,7 @@ export class CreateAppointment extends React.Component {
         //for all the other days starting tomorrow, a matrix is initialised. Each month is separated in an array of days and each day is an array of appointments on that day
         for (let index = moment(month).date(); index <= moment(month).endOf("month").date(); index++) {
             scheduleMatrix.push([])
-        }   
+        }
 
         //each appointment is sorted to it's corresponding day in the matrix
         scheduleArray.map(appointment => {
@@ -113,7 +115,7 @@ export class CreateAppointment extends React.Component {
             if (dayOfMonth.length == 12) {
                 fullyBookedDays.push(moment(month).date(index + 1).toDate())
             }
-        })  
+        })
         this.setState({ fullyBookedDays })
     }
 
@@ -143,50 +145,52 @@ export class CreateAppointment extends React.Component {
             doctorID: this.state.doctorID,
             doctorName: this.state.doctorName
         }).then(this.setState({ appointmentCreatedMessage: "Appointment created succesfully" }))
-        
+
     }
 
 
 
     render() {
         return (
-            <div>
+            <div className="content-container article">
+                {this.state.appointmentCreatedMessage === "" ?
+                    <div className="article-column-left">
+                        <h2>Want to add a new appointment?</h2>
+                        <select defaultValue={"default"} onChange={this.onDoctorChange}>
+                            <option disabled={true} value="default">Please select a doctor...</option>
+                            {this.props.doctorsList.map(doctor => <option key={doctor.doctorUID} value={doctor.doctorUID}>{doctor.doctorName}</option>)}
+                        </select>
+                        <div className="col2-container create-appointment">
+                            <div className="col2-column no-line-height">
+                                <DayPicker
+                                    onDayClick={this.onDateChange}
+                                    todayButton={"Today"}
+                                    disabledDays={[
+                                        ...this.state.fullyBookedDays,
+                                        { daysOfWeek: [0, 6] },
+                                        { before: moment().toDate() },
+                                        ...this.state.legalHolidays,
+                                        ...this.state.easterSundays.map(sunday => moment(sunday).subtract(2, 'days').toDate()),
+                                        ...this.state.easterSundays.map(sunday => moment(sunday).add(1, 'days').toDate()),
+                                        ...this.state.easterSundays.map(sunday => moment(sunday).add(50, 'days').toDate())
+                                    ]}
+                                    firstDayOfWeek={1}
+                                    onMonthChange={this.onMonthChange}
+                                />
+                            </div>
 
-                <br />
-                <br />
-                {this.state.appointmentCreatedMessage === "" ? <div>
-                    <p>Want to add a new appointment?</p>
-                    <select defaultValue={"default"} onChange={this.onDoctorChange}>
-                        <option disabled={true} value="default">Please select a doctor...</option>
-                        {this.props.doctorsList.map(doctor => <option key={doctor.doctorUID} value={doctor.doctorUID}>{doctor.doctorName}</option>)}
-                    </select>
+                            <div className="col2-column">
+                                {this.state.doctorName == "" ? <div></div> :
+                                    <DoctorsDay
+                                        date={this.state.date}
+                                        doctor={this.state.doctor}
+                                        onSubmit={this.onAppointmentRequest}
+                                    />
+                                }
+                            </div>
+                        </div>
 
-                    <DayPicker
-                        onDayClick={this.onDateChange}
-                        todayButton={"Today"}
-                        disabledDays={[
-                            ...this.state.fullyBookedDays,
-                            { daysOfWeek: [0, 6] },
-                            { before: moment().toDate() },
-                            ...this.state.legalHolidays,
-                            ...this.state.easterSundays.map(sunday => moment(sunday).subtract(2, 'days').toDate()),
-                            ...this.state.easterSundays.map(sunday => moment(sunday).add(1, 'days').toDate()),
-                            ...this.state.easterSundays.map(sunday => moment(sunday).add(50, 'days').toDate())
-                        ]}
-                        firstDayOfWeek={1}
-                        onMonthChange={this.onMonthChange}
-                    />
-
-
-                    {this.state.doctorName == "" ? <div></div> :
-                        <DoctorsDay
-                            date={this.state.date}
-                            doctor={this.state.doctor}
-                            onSubmit={this.onAppointmentRequest}
-                        />
-                    }
-
-                </div> : this.state.appointmentCreatedMessage}
+                    </div> : <div className="message-success">{<FontAwesomeIcon icon={faCheck} />}{this.state.appointmentCreatedMessage}</div>}
             </div>
         )
     }
