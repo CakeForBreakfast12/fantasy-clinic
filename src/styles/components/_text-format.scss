@@ -165,3 +165,20 @@
         margin: 25px auto;
     }
 }
+
+.fc-toolbar,.fc-day-header{
+    @media(max-width: 992px){
+        font-size: 0.8em;
+    }
+
+    @media(max-width: 370px){
+        font-size: 0.7em;
+    }
+}
+
+.fc-event{
+    @media(max-width: 1200px){
+        font-size: 0.55em;
+    }
+}
+

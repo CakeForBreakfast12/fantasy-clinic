@@ -18,7 +18,7 @@ const DoctorDashboard = (props) => {
                 </div>
 
             </div>
-            <div className="content-container col2-container">
+            <div className="content-container col2-container create-appointment">
                 <div className="article-column-left">
                     <DoctorsWeeklyCalendar bookings={props.bookings} />
                 </div>
